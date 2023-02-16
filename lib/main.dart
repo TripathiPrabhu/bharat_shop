@@ -1,4 +1,5 @@
 import 'package:bharat_shop/providers/Product_Provider.dart';
+import 'package:bharat_shop/screens/Product_Details_Screen.dart';
 import 'package:bharat_shop/screens/product_overview_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -19,7 +20,14 @@ class MyApp extends StatelessWidget {
           primaryColor: Colors.deepPurple,
           primarySwatch: Colors.indigo
         ),
-        home: const ProductOverViewScreen(),
+        initialRoute: ProductOverViewScreen.routeName,
+
+        routes: {
+          ProductOverViewScreen.routeName : (context)=> ProductOverViewScreen(),
+          ProductDetailScreen.routeName : (context)=> ProductDetailScreen(),
+
+
+        },
       ),
     );
   }

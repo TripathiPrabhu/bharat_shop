@@ -23,17 +23,9 @@ class Product_Grid_View extends StatelessWidget {
           crossAxisCount: MediaQuery.of(context).size.width > 600 ? 3 : 2,
         ),
         itemBuilder: (ctx, i) {
-          return ProductView(
-            Products[i].isFavourite,
-            Products[i].imageUrl,
-            Products[i].title,
-            Products[i].price,
-            Products[i].id,
-            Products[i].description,
-
-
-
-
+          return ChangeNotifierProvider(
+            create: (BuildContext context) { Products[i]; },
+            child: ProductView(),
           );
         },
         itemCount: Products.length,

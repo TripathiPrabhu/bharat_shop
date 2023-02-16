@@ -3,7 +3,7 @@ import '../widgets/Product_Grid_View.dart';
 
 class ProductOverViewScreen extends StatelessWidget {
   const ProductOverViewScreen({Key? key}) : super(key: key);
-
+  static const routeName = '/Product-Overview';
 
   @override
   Widget build(BuildContext context) {
