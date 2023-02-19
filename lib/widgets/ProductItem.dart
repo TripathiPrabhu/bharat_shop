@@ -1,12 +1,20 @@
 import 'package:bharat_shop/providers/Product.dart';
+import 'package:bharat_shop/providers/cart_Provider.dart';
 import 'package:bharat_shop/screens/Product_Details_Screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ProductItem extends StatelessWidget {
+  final String? productId;
+  final String? title;
+  final double? price;
+
+  ProductItem({@required this.productId, @required this.title, @required this.price});
+
   @override
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context, listen: false);
+    final cart = Provider.of<Cart_Provider>(context, listen: false);
     return ClipRRect(
       borderRadius: BorderRadius.circular(15),
       child: GridTile(
@@ -33,22 +41,13 @@ class ProductItem extends StatelessWidget {
             ],
           ),
         ),
-
-        //Tile footer goes here
         footer: GridTileBar(
           backgroundColor: Colors.black87,
-          leading: Consumer<Product>(
-            builder: (context, Product, child) {
-              return IconButton(
-                  onPressed: () {
-                   // product.togglefavStatus();
-                  },
-                  icon: product.isFavourite! ? Icon(
-                    Icons.shopping_cart_rounded, color: Colors.yellow,) :
-                  Icon(Icons.shopping_cart_outlined, color: Colors.deepPurple,)
-              );
+          leading: ElevatedButton(
+            onPressed: () {
+                    cart.addCartItem(product.id!, product.title!, product.price!);
             },
-          ),
+            child: Text('Add to Cart'),),
           title: Text('${product.title}'),
           trailing: Text(
             '₹ ${product.price}',
