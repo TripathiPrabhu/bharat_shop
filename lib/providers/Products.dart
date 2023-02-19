@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'productModel.dart';
+import 'Product.dart';
 
 class Product_Provider with ChangeNotifier {
-  final List<Product_Model> _item = [
-    Product_Model(
+  final List<Product> _item = [
+    Product(
       id: '1',
       title: 'Grey Top Girls..',
       imageUrl:
@@ -13,7 +13,7 @@ class Product_Provider with ChangeNotifier {
       price: 199,
       isFavourite: false,
     ),
-    Product_Model(
+    Product(
       id: '2',
       title: 'Green Top Girls..',
       imageUrl:
@@ -22,7 +22,7 @@ class Product_Provider with ChangeNotifier {
       price: 299,
       isFavourite: false,
     ),
-    Product_Model(
+    Product(
       id: '3',
       title: 'Pink Top Girls..',
       imageUrl:
@@ -31,7 +31,7 @@ class Product_Provider with ChangeNotifier {
       price: 399,
       isFavourite: false,
     ),
-    Product_Model(
+    Product(
       id: '4',
       title: 'Queen Red Baby',
       imageUrl:
@@ -43,22 +43,40 @@ class Product_Provider with ChangeNotifier {
   ];
 
   final List faveProductList = [];
+  var _isFavoriteOnly = false;
 
-  List<Product_Model> get item {
+  List<Product> get item {
+    if(_isFavoriteOnly){
+     return _item.where((prod) => prod.isFavourite!).toList();
+    }
     return [..._item];
   }
 
-  MakeFavorite (){
 
-  }
 
-    Product_Model findById(id){
-    notifyListeners();
-    return _item.firstWhere((prod) => prod.id ==id);
+    Product findById(id){
+    return _item.firstWhere((prod) => prod.id! ==id);
 
      }
+     void showFavoriteOnly (){
+    _isFavoriteOnly = true;
+    notifyListeners();
+     }
+
+  void showall (){
+    _isFavoriteOnly = false;
+    notifyListeners();
+  }
+
+
   void addProduct() {
     // _item.add('value');
     notifyListeners();
   }
+
+  void FavProduct(){
+    _item.firstWhere((prod) => prod.isFavourite =true);
+    notifyListeners();
+  }
+
 }
