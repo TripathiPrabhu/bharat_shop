@@ -30,30 +30,33 @@ class ProductOverViewScreen extends StatelessWidget {
                   children: [
                     IconButton(
                       onPressed: () {
-                        Navigator.of(context).pushNamed(CartScreen.routeName) ;
+                        Navigator.of(context).pushNamed(CartScreen.routeName);
                       },
                       icon: Icon(
                         Icons.shopping_cart_rounded, size: 35,
                         color: Colors.white,),),
-                    Positioned(
-                      top: 4,
-                      right: 0,
-                      child: Container(
-                        padding: EdgeInsets.all(2.0),
-                        decoration:
-                        BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            color: Colors.deepPurple),
-                        constraints: BoxConstraints(
-                          minWidth: 20,
-                          minHeight: 20,
-                        ),
-                        child: Consumer<Cart_Provider>(
-                          builder: (context, Cart_Provider, child) {
-                            return Center(child: Text('${Cart_Provider.items.length}'));
-                          },
-                        ),
-                      ),
+                    Consumer<Cart_Provider>(
+                      builder: (context,Cart_Provider, child) {
+                        return Positioned(
+                          top: 4,
+                          right: 0,
+                          child: cart.item.isEmpty ? Container() :
+                          Container(
+                            padding: EdgeInsets.all(2.0),
+                            decoration:
+                            BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: Colors.deepPurple),
+                            constraints: BoxConstraints(
+                              minWidth: 20,
+                              minHeight: 20,
+                            ),
+                            child: Center(
+                                child: Text('${Cart_Provider.itemCount}')),
+                          ),
+
+                        );
+                      },
                     ),
                   ],
 

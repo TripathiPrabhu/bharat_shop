@@ -1,16 +1,17 @@
 import 'package:bharat_shop/providers/Product.dart';
 import 'package:bharat_shop/providers/cart_Provider.dart';
 import 'package:bharat_shop/screens/Product_Details_Screen.dart';
+import 'package:bharat_shop/widgets/product_increase_decrease.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class ProductItem extends StatelessWidget {
-  final String? productId;
-  final String? title;
-  final double? price;
+class ProductItem extends StatefulWidget {
 
-  ProductItem({@required this.productId, @required this.title, @required this.price});
+  @override
+  State<ProductItem> createState() => _ProductItemState();
+}
 
+class _ProductItemState extends State<ProductItem> {
   @override
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context, listen: false);
@@ -25,17 +26,16 @@ class ProductItem extends StatelessWidget {
             alignment: AlignmentDirectional.topEnd,
             children: [
               Positioned(
-                child: Consumer<Product>(
-                  builder: (context, Product, child) {
-                    return IconButton(
-                        onPressed: () {
-                          product.togglefavStatus();
-                        },
-                        icon: product.isFavourite! ? Icon(
-                          Icons.favorite, color: Colors.yellow,) :
-                        Icon(Icons.favorite_border, color: Colors.deepPurple,)
-                    );
-                  },
+                child: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        product.togglefavStatus();
+                      });
+
+                    },
+                    icon: product.isFavourite! ? Icon(
+                      Icons.favorite, color: Colors.yellow,) :
+                    Icon(Icons.favorite_border, color: Colors.deepPurple,)
                 ),
               ),
             ],
@@ -43,11 +43,12 @@ class ProductItem extends StatelessWidget {
         ),
         footer: GridTileBar(
           backgroundColor: Colors.black87,
-          leading: ElevatedButton(
-            onPressed: () {
-                    cart.addCartItem(product.id!, product.title!, product.price!);
-            },
-            child: Text('Add to Cart'),),
+          leading:
+          //cart.item.isNotEmpty?IncreaseDecrease():
+          ElevatedButton(
+            onPressed: () {cart.addItem(product.id!, product.title!, product.price!);},
+            child:
+            Text('Add to Cart'),),
           title: Text('${product.title}'),
           trailing: Text(
             '₹ ${product.price}',

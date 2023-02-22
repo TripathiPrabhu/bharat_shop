@@ -2,6 +2,10 @@ import 'package:bharat_shop/providers/cart_Provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../providers/Products.dart';
+import '../providers/order_items.dart';
+import '../widgets/cart_item_list.dart';
+
 class CartScreen extends StatelessWidget {
   static const routeName = '/CartScreen';
 
@@ -9,7 +13,8 @@ class CartScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final cart = Provider.of<Cart_Provider>(context, listen: false);
+    final cart = Provider.of<Cart_Provider>(context, listen: true);
+    final order = Provider.of<Order_Provider>(context, listen: true);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -17,31 +22,35 @@ class CartScreen extends StatelessWidget {
         ),
         centerTitle: true,
       ),
-      body: ListView(
+      body:  ListView.builder(
+    itemCount: cart.item.length,
+    itemBuilder: (BuildContext context, int index) {
+      return Column(
         children: [
-          Card(
-            margin: EdgeInsets.all(10),
-            child: Padding(
-              padding: EdgeInsets.all(10),
-              child: Container(
-                width: double.maxFinite,
-                height: 80,
-                child: Flexible(
-                  child: Row(
-                    children: [
-                      Text('Total'),
-                      SizedBox(
-                          height: 80,
-                          width: 100,
-                          child: Chip(label: Text('\$${cart.totalAmount}')))
-                    ],
-                  ),
-                ),
-              ),
-            ),
+          CartItemList(
+            id: cart.item.values.toList()[index].id,
+            price: cart.item.values.toList()[index].price,
+            title: cart.item.values.toList()[index].title,
+              quantity: cart.item.values.toList()[index].quantity,
+              Productid: cart.item.keys.toList()[index],
           ),
+          Padding(
+            padding: const EdgeInsets.only(right: 40),
+            child: Align(
+              alignment: Alignment.bottomRight,
+              child: ElevatedButton(
+                  onPressed: (){
+                    order.addOrder(cart.item.values.toList(), cart.totalAmount);
+                    cart.clearCart();
+                  },
+                  child: Text('Order Now')),
+            ),
+          )
         ],
-      ),
+      );
+
+    }
+    ),
     );
   }
 }

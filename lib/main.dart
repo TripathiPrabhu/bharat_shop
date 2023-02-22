@@ -1,5 +1,6 @@
 import 'package:bharat_shop/providers/Products.dart';
 import 'package:bharat_shop/providers/cart_Provider.dart';
+import 'package:bharat_shop/providers/order_items.dart';
 import 'package:bharat_shop/screens/Product_Details_Screen.dart';
 import 'package:bharat_shop/screens/cart_screen.dart';
 import 'package:bharat_shop/screens/product_overview_screen.dart';
@@ -19,7 +20,9 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(
               create: (ctx)=> Product_Provider()),
           ChangeNotifierProvider(
-              create: (ctx)=>Cart_Provider())
+              create: (ctx)=>Cart_Provider()),
+          ChangeNotifierProvider(
+              create: (ctx)=> Order_Provider()),
         ],
 
       child: MaterialApp(
